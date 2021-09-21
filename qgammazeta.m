@@ -1,0 +1,24 @@
+function [q gamma1 zeta] = qgammazeta(T,k)
+a = diag(T)(1:k);
+p = (diag(T,1)(1:k)).*(diag(T,-1)(1:k));
+Aim11 = 1;
+Aim12 =0;
+Aim13 =0;
+Aim14 = 1;
+for i = 1:k
+Ai1 = [1,a(i)];
+Ai2 = [0 -p(i)];
+Ai3 = [0 1];
+Ai4 =  [0 0];
+P1 = conv(Aim11,Ai1) + conv(Aim12,Ai3);
+P2 = conv(Aim11,Ai2) + conv(Aim12,Ai4);
+P3 = conv(Aim13,Ai1) + conv(Aim14,Ai3);
+P4 = conv(Aim13,Ai2) + conv(Aim14,Ai4);
+Aim11 = P1;
+Aim12 = P2;
+Aim13 = P3;
+Aim14 = P4;
+end
+q = P1 + P4;
+gamma1 = -prod(p);
+zeta = -P4/sqrt(gamma1);
